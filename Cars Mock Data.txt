@@ -1,0 +1,221 @@
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Select *
+From [dbo].['Cars Sales Data$']
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Brand Sales by (country, Gender) and Total Per Brand
+
+
+Select Brand, [Buyer Gender], Country
+From [dbo].['Cars Sales Data$']
+
+---                        Brand Sales Per Country                                    ------------------------
+
+Select distinct(Country) , brand, Count(Brand)  as Quantity
+From [dbo].['Cars Sales Data$']
+---Where Country like 'China' ---< Filter 
+---Where Brand Like 'Audi' ---< Filter  
+group by Country, Brand
+
+----                       Brand Sales Per Gender                             ---------------------------------------
+
+Select [Buyer Gender], Brand , Count(Brand) as QuantityBuyed
+From [dbo].['Cars Sales Data$']
+---Where [Buyer Gender] like 'Male' ---< Filter 
+---Where Brand Like 'Audi' ---< Filter  
+group by [Buyer Gender], Brand
+order by Brand, [Buyer Gender]
+
+----                       Brand Sales Per Age Stage                             ---------------------------------------
+
+Select [Age Stage], Brand , Count(Brand) as QuantityBuyed
+From [dbo].['Cars Sales Data$']
+---Where [Age Stage] like 'Young' ---< Filter 
+---Where Brand Like 'Audi' ---< Filter  
+group by [Age Stage], Brand
+order by Brand, [Age Stage]
+
+---                                 Total Quantity Sales Per Brand                   ---------------------------------
+
+Select Distinct(Brand), Count(Brand) As TotalQuantitySales
+From [dbo].['Cars Sales Data$']
+---Where Brand Like 'Audi' ---< Filter 
+group by Brand
+Order By TotalQuantitySales desc
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Model Sales by (country, Gender) and Total Per Model
+
+---                                 Total Quantity Sales Per Model                   ---------------------------------
+
+Select distinct(Model), Brand, count(Model) as TotalQuantitySales 
+From [dbo].['Cars Sales Data$']
+---Where Model like 'Murciélago' ---< Filter 
+---Where Brand Like 'Mercedes-Benz' ---< Filter 
+group by Brand, Model
+order by TotalQuantitySales desc 
+
+---                        Model Sales Per Country                                    ------------------------
+
+
+Select distinct(Model), Brand, Country, count(Model) as Quantity
+From [dbo].['Cars Sales Data$']
+---Where Model like 'Murciélago'  ---< Filter 
+---Where Country Like 'United States' ---< Filter 
+group by Brand, Model, Country
+order by Quantity desc
+
+----                       Brand Sales Per Gender                             ---------------------------------------
+
+Select distinct(Model), Brand, [Buyer Gender], count(Model) as QuantityBuyed
+From [dbo].['Cars Sales Data$']
+---Where Model like 'Murciélago'  ---< Filter 
+---Where [Buyer Gender] Like 'Female' ---< Filter 
+group by Brand, Model, [Buyer Gender]
+order by Brand
+
+----                       Brand Sales Per Age Stage                            ---------------------------------------
+
+Select distinct(Model), Brand, [Age Stage], count(Model) as QuantityBuyed
+From [dbo].['Cars Sales Data$']
+---Where Model like 'Murciélago'  ---< Filter 
+---Where [Age Stage] Like 'Adult' ---< Filter 
+group by Brand, Model, [Age Stage]
+order by Brand
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Buyer And Age Stage
+
+Select *
+From [dbo].['Cars Sales Data$']
+
+
+Select Distinct([Age Stage]), Country, Count([Age Stage]) As QuantityBuyed
+From [dbo].['Cars Sales Data$']
+---Where Country Like 'Canada'  ---< Filter 
+---Where [Age Stage] Like 'Adult' ---< Filter 
+group by Country, [Age Stage]
+Order By Country, [Age Stage]
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Sales By Color
+
+---------                         Brand Quantity Sales By Color            ----------------------------
+
+Select Distinct(Color), Brand, Count(Color) As QuantitySales
+From [dbo].['Cars Sales Data$']
+---Where Color Like 'Blue'  ---< Filter 
+---Where Brand Like 'Ford' ---< Filter
+Group By Brand, Color
+Order by Color , QuantitySales desc
+
+
+-------------                         Prefered Color By Gender      - ---------------------------------------
+
+Select Distinct(Color), [Buyer Gender], Count(Color) As QuantitySales
+From [dbo].['Cars Sales Data$']
+---Where Color Like 'Blue'  ---< Filter 
+---Where [Buyer Gender] Like 'Male' ---< Filter
+Group By [Buyer Gender], Color
+Order by Color , QuantitySales desc
+
+
+-------------                         Prefered Color By Age Stage     - ---------------------------------------
+
+Select Distinct(Color), [Age Stage], Count(Color) As QuantitySales
+From [dbo].['Cars Sales Data$']
+---Where Color Like 'Blue'  ---< Filter 
+---Where [Age Stage] Like 'Old' ---< Filter
+Group By [Age Stage], Color
+Order by Color , QuantitySales desc
+
+
+---------                         Quantity Sales In Country By Color            ----------------------------
+
+Select Distinct(Color),Country, Count(Color) As QuantitySales
+From [dbo].['Cars Sales Data$']
+---Where Color Like 'Red'  ---< Filter 
+---Where Country Like 'Sweden' ---< Filter
+Group By Country, Color
+Order by Color , QuantitySales desc
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--- Price Compare And Total ( Yera , Brand , MOdel ..)
+
+Select *
+From [dbo].['Cars Sales Data$']
+
+
+Select Brand, Model, [Buyer Gender], Country, Color, [Age Stage], [Sale Price]
+From [dbo].['Cars Sales Data$']
+
+----------------               Total Income And Avg Prce Per Brand        ---------------------------------------
+
+Select Brand, Count(Brand) QuantitySales, Sum([Sale Price]) TotalIncome, AVG([Sale Price]) AvgPrice
+From [dbo].['Cars Sales Data$']
+---Where Brand Like 'Porsche'  ---< Filter 
+Group By Brand
+Order By TotalIncome desc
+
+-----------------             Total Income Per Model              ----------------------------------------------- 
+
+Select Model, Brand, Count(Model) QuantitySales, Sum([Sale Price]) TotalIncome
+From [dbo].['Cars Sales Data$']
+---Where Brand Like 'Ford'  ---< Filter 
+Group By Model, Brand
+Order By TotalIncome desc
+
+-----------------            Total Payed Per Gender               --------------------------------------
+
+Select [Buyer Gender], Sum([Sale Price]) TotalPayed
+From [dbo].['Cars Sales Data$']
+Group By [Buyer Gender]
+Order By TotalPayed desc
+
+--------------------         Total Sales In Countries               -----------------------------------
+
+
+
+Select Country, Sum([Sale Price]) TotalSales
+From [dbo].['Cars Sales Data$']
+---Where Country Like 'Iraq'  ---< Filter 
+Group By Country
+Order By TotalSales desc
+
+------------                 Total Payed Per  Age Stage                -------------------------------------
+
+
+Select [Age Stage], Sum([Sale Price]) TotalPayed
+From [dbo].['Cars Sales Data$']
+Group By [Age Stage]
+Order By TotalPayed desc
+
+
+--------------------                         Total Income By Color        -----------------------------
+
+
+Select Color, Sum([Sale Price]) TotalIncome
+From [dbo].['Cars Sales Data$']
+Group By Color
+Order By TotalIncome desc
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
